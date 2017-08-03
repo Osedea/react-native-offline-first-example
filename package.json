@@ -1,0 +1,34 @@
+{
+  "name": "DoOfflineFirstApps",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "postinstall": "remotedev-debugger --hostname 127.0.0.1 --port 8888 --injectserver",
+    "test": "jest"
+  },
+  "dependencies": {
+    "apisauce": "^0.14.0",
+    "react": "16.0.0-alpha.12",
+    "react-native": "0.47.0",
+    "react-native-image-picker": "^0.26.3",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2",
+    "redux-offline": "^2.0.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-jest": "20.0.3",
+    "babel-preset-react-native": "2.1.0",
+    "eslint": "^3.0.0",
+    "eslint-config-osedea": "^1.0.3",
+    "jest": "20.0.4",
+    "react-test-renderer": "16.0.0-alpha.12",
+    "remote-redux-devtools": "^0.5.12",
+    "remote-redux-devtools-on-debugger": "^0.8.2"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
