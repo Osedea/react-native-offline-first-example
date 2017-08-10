@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import BasicContainer from 'DoOfflineFirstApps/js/components/BasicContainer';
 import Button from 'DoOfflineFirstApps/js/components/Button';
 import { getImages } from 'DoOfflineFirstApps/js/services/Images/actions';
-import { Image } from 'DoOfflineFirstApps/js/services/Images/types';
+import type { Image } from 'DoOfflineFirstApps/js/types';
 
 import CatImage from 'DoOfflineFirstApps/js/components/CatImage';
 

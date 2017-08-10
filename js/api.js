@@ -3,7 +3,7 @@
 import { create } from 'apisauce';
 
 const api = create({
-    baseURL: 'localhost:5000',
+    baseURL: 'http://localhost:3030',
 });
 
 export default api;

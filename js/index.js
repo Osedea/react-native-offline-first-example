@@ -7,6 +7,9 @@
 import React, { Component } from 'react';
 import { StackNavigator as stack } from 'react-navigation';
 import { Provider } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
+
+import { setUser } from 'DoOfflineFirstApps/js/services/User/actions';
 
 import store from './store';
 import HomeScreen from './routes/Home';
@@ -20,6 +23,10 @@ const Navigator = stack({
 });
 
 export default class DoOfflineFirstApps extends Component {
+    componentWillMount() {
+        store.dispatch(setUser({ uuid: DeviceInfo.getUniqueID() }));
+    }
+
     render() {
         return (
             <Provider store={store}>

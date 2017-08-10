@@ -10,6 +10,10 @@ import api from './api';
 
 const config = {
     effect: (effect, action) => {
+        if (__DEV__) {
+            console.log('effect', effect, action);
+        }
+
         switch (effect.method) {
             case 'GET':
                 return api.get(effect.url);
@@ -28,11 +32,11 @@ const store = createStore(
     compose(
         applyMiddleware(Thunk),
         offline(config),
-        devTools({
-            name: Platform.OS,
-            hostname: '127.0.0.1',
-            port: 8888,
-        })
+        // devTools({
+        //     name: Platform.OS,
+        //     hostname: '127.0.0.1',
+        //     port: 8888,
+        // })
     )
 );
 

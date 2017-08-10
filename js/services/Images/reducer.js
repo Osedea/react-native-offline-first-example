@@ -1,5 +1,7 @@
 // @flow
 
+import type { Action } from 'DoOfflineFirstApps/js/types';
+
 import {
     IMAGES_GET,
     IMAGES_GOT,
@@ -11,31 +13,13 @@ import {
     IMAGES_ADDITION_FAILED,
 } from './actions';
 
-type Action = {
-    type: string,
-    payload: Object,
-    meta: Object,
-};
-
-type OfflineAction = {
-    type: string,
-    payload: string,
-    meta: {
-        offline: {
-            effect: { url: string, method: 'POST' | 'GET' | 'PUT' | 'DELETE' },
-            commit: Action,
-            rollback: Action
-      }
-    },
-};
-
 const initialState = {
     images: [],
     pendingImages: [],
     failedImages: [],
 };
 
-function FavoritesServiceReducer(state = initialState, action: Action | OfflineAction) {
+function CatsServiceReducer(state = initialState, action: Action) {
     switch (action.type) {
         case IMAGES_GET:
             return state;
@@ -64,4 +48,4 @@ function FavoritesServiceReducer(state = initialState, action: Action | OfflineA
     }
 }
 
-export default FavoritesServiceReducer;
+export default CatsServiceReducer;
