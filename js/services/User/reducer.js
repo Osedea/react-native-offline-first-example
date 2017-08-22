@@ -1,13 +1,16 @@
 // @flow
 
 import { SET_USER } from './actions';
-import { Action } from 'DoOfflineFirstApps/js/types';
+import { Action, User } from 'DoOfflineFirstApps/js/types';
 
+type UserState = {
+    user: User,
+};
 const initialState = {
     user: {},
 };
 
-function UsersServiceReducer(state = initialState, action: Action) {
+function UsersServiceReducer(state: UserState = initialState, action: Action) {
     switch (action.type) {
         case SET_USER:
             return {

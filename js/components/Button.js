@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import {
     StyleSheet,
@@ -7,11 +6,13 @@ import {
     TouchableHighlight,
 } from 'react-native';
 
+import type { Style } from 'DoOfflineFirstApps/js/types';
+
 type Props = {
     noShadow: boolean,
-    onPress: Function,
+    onPress: () => void,
     text: string,
-    style?: StyleSheet.Styles | Array<StyleSheet.Styles>,
+    style?: Style,
 };
 
 const Button = (props: Props) => (
@@ -28,15 +29,20 @@ const Button = (props: Props) => (
     </TouchableHighlight>
 );
 
+const colors = {
+    background: '#FAFAFA',
+    shadow: '#000000',
+};
 const styles = StyleSheet.create({
     button: {
         marginTop: 10,
         padding: 10,
-        backgroundColor: '#FAFAFA',
+        backgroundColor: colors.background,
+        alignSelf: 'center',
     },
     shadow: {
         shadowRadius: 5,
-        shadowColor: '#000000',
+        shadowColor: colors.shadow,
         shadowOffset: {
             height: 5,
             width: 2,

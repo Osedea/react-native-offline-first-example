@@ -5,7 +5,7 @@
  */
 
 import {
-  AppRegistry,
+    AppRegistry,
 } from 'react-native';
 
 import DoOfflineFirstApps from 'DoOfflineFirstApps/js';

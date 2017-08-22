@@ -24,7 +24,9 @@ const Navigator = stack({
 
 export default class DoOfflineFirstApps extends Component {
     componentWillMount() {
-        store.dispatch(setUser({ uuid: DeviceInfo.getUniqueID() }));
+        if (!store.getState().User.user.saved) {
+            store.dispatch(setUser({ uuid: DeviceInfo.getUniqueID() }));
+        }
     }
 
     render() {

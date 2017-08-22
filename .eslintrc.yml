@@ -1,5 +1,6 @@
 extends:
     - osedea/react-native
+    - osedea/flow
 
 rules:
     no-use-before-define: 0

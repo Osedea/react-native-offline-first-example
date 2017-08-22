@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import {
     Dimensions,
-    Image,
     StyleSheet,
     Text,
     View,
@@ -12,34 +11,54 @@ import ImagePicker from 'react-native-image-picker';
 import type { NavigationScreenDetails } from 'react-navigation/src/TypeDefinition';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { withNetworkConnectivity } from 'react-native-offline';
 
 import { addImages } from 'DoOfflineFirstApps/js/services/Images/actions';
+import { selectPendingImages } from 'DoOfflineFirstApps/js/services/Images/selectors';
 import BasicContainer from 'DoOfflineFirstApps/js/components/BasicContainer';
 import Button from 'DoOfflineFirstApps/js/components/Button';
+import CatImage from 'DoOfflineFirstApps/js/components/CatImage';
+import type { ImageToUpload } from 'DoOfflineFirstApps/js/types';
 
 type Props = {
     navigation: NavigationScreenDetails,
-    addImages: Function,
+    addImages: () => void,
+    pendingImages: Array<ImageToUpload>,
+    isConnected: boolean,
+};
+type State = {
+    images: Array<ImageToUpload>,
+    error: Error,
 };
 
-class ImageAdd extends Component {
+class ImageAdd extends Component<Props, Props, State> {
     static navigationOptions = {
         title: 'Add a cat',
     };
 
-    state = {
-        images: [],
-        error: null,
+    static defaultProps = {
+        pendingImages: [],
     };
 
-    props: Props;
+    state = {
+        images: [],
+    };
 
     pickerOptions = {
         title: 'Select A Picture of Cat',
+        maxWidth: Dimensions.get('window').width,
+        maxHeight: Dimensions.get('window').width * 9 / 16, // 16:9 ratio
+        quality: 0.8,
         storageOptions: {
             skipBackup: true,
             path: 'images',
         },
+    };
+
+    createPendingImagePressHandler = (image: ImageToUpload) => () => {
+        // Cancel it
+        console.log('Cancelling', image); // Not possible for now...
     };
 
     handleAddCatPress = () => {
@@ -52,7 +71,10 @@ class ImageAdd extends Component {
             } else if (response.didCancel) {
                 // Do nothing
             } else {
-                const source = { uri: response.uri };
+                const source = {
+                    ...response,
+                    preview: `data:image/jpeg;base64,${response.data}`,
+                };
                 const clonedImages = [...this.state.images];
 
                 clonedImages.push(source);
@@ -64,16 +86,11 @@ class ImageAdd extends Component {
     };
 
     handleSendCatsPress = () => {
-        this.props.addImages(this.state.images);
-        // .then(() => {
-        //     this.props.navigation.goBack();
-        // })
-        // .catch((error) => {
-        //     if (__DEV__) {
-        //         console.log(error);
-        //     }
-        //     this.setState({ error: 'Could not upload your cats 😿' });
-        // });
+        this.props.addImages(this.state.images.map((image: ImageToUpload) => ({
+            ...image,
+            processing: true,
+        })));
+        this.props.navigation.goBack();
     };
 
     render() {
@@ -85,23 +102,46 @@ class ImageAdd extends Component {
                         onPress={this.handleAddCatPress}
                     />
                     : <View style={styles.imagesList}>
-                        {this.state.images.map((catImage) => (
-                            <Image
-                                style={styles.cat}
+                        {this.state.images.map((catImage: ImageToUpload) => (
+                            <CatImage
+                                {...catImage}
                                 key={catImage.uri}
-                                source={catImage}
-                                resizeMode={'cover'}
+                                upload
                             />
                         ))}
                         <Button
                             text={'I have other cats! 😸'}
                             onPress={this.handleAddCatPress}
                         />
-                        <Button
-                            text={'Make my cats famous! 😼'}
-                            onPress={this.handleSendCatsPress}
-                        />
+                        {this.props.isConnected
+                            ? (
+                                <Button
+                                    text={'Make my cats famous right now! 😼'}
+                                    onPress={this.handleSendCatsPress}
+                                />
+                            )
+                            : (
+                                <Button
+                                    text={'Make my cats famous ASAP! ⏱'}
+                                    onPress={this.handleSendCatsPress}
+                                />
+                            )
+                        }
                     </View>
+                }
+                {this.props.pendingImages.length
+                    ? <View style={styles.pending}>
+                        <Text style={styles.label}>{'Pending uploads'}</Text>
+                        {this.props.pendingImages.map((catImage: ImageToUpload) => (
+                            <CatImage
+                                {...catImage}
+                                key={catImage.uri}
+                                onPress={this.createPendingImagePressHandler(catImage)}
+                                upload
+                            />
+                        ))}
+                    </View>
+                    : null
                 }
                 {this.state.error
                     ? <Text style={styles.error}>{this.state.error}</Text>
@@ -112,23 +152,35 @@ class ImageAdd extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    error: {
-        padding: 10,
-        color: '#BB0000',
-    },
-    cat: {
-        width: Dimensions.get('window').width - 20,
-        height: 160,
-        marginTop: 10,
-    },
+const mapStateToProps = createStructuredSelector({
+    pendingImages: selectPendingImages(),
 });
-
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addImages,
 }, dispatch);
 
-export default connect(
-    () => ({}),
-    mapDispatchToProps,
-)(ImageAdd);
+export default withNetworkConnectivity()(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(ImageAdd)
+);
+
+const colors = {
+    error: '#BB0000',
+};
+const styles = StyleSheet.create({
+    error: {
+        padding: 10,
+        color: colors.error,
+    },
+    imagesList: {
+        flex: 1,
+    },
+    pending: {
+        marginTop: 10,
+    },
+    label: {
+        padding: 10,
+    },
+});
