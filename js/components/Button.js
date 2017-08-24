@@ -7,8 +7,11 @@ import {
 } from 'react-native';
 
 import type { Style } from 'DoOfflineFirstApps/js/types';
+import colors from 'DoOfflineFirstApps/js/colors';
 
 type Props = {
+    children?: ReactElement<*>,
+    noBorder: boolean,
     noShadow: boolean,
     onPress: () => void,
     text: string,
@@ -21,24 +24,29 @@ const Button = (props: Props) => (
         style={[
             styles.button,
             props.noShadow ? null : styles.shadow,
+            props.noBorder ? null : styles.border,
             props.style,
         ]}
         underlayColor={'#F0F0F0'}
     >
-        <Text>{props.text}</Text>
+        {props.text
+            ? <Text>{props.text}</Text>
+            : props.children
+        }
     </TouchableHighlight>
 );
 
-const colors = {
-    background: '#FAFAFA',
-    shadow: '#000000',
-};
 const styles = StyleSheet.create({
     button: {
         marginTop: 10,
         padding: 10,
-        backgroundColor: colors.background,
+        backgroundColor: colors.white,
         alignSelf: 'center',
+    },
+    border: {
+        borderRadius: 5,
+        borderWidth: 2,
+        borderColor: colors.lightOrange,
     },
     shadow: {
         shadowRadius: 5,

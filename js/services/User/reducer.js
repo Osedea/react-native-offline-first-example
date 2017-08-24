@@ -1,25 +1,32 @@
 // @flow
 
-import { SET_USER } from './actions';
+import {
+    SET_USER,
+    GET_USER_FAILED,
+} from './actions';
 import { Action, User } from 'DoOfflineFirstApps/js/types';
 
 type UserState = {
-    user: User,
+    data: User,
+    error: ?Error,
 };
 const initialState = {
-    user: {},
+    data: {},
+    error: null,
 };
 
-function UsersServiceReducer(state: UserState = initialState, action: Action) {
+function usersServiceReducer(state: UserState = initialState, action: Action) {
     switch (action.type) {
         case SET_USER:
             return {
-                state,
-                user: action.payload,
+                data: action.payload,
+                error: null,
             };
+        case GET_USER_FAILED:
+            return { error: action.payload };
         default:
             return state;
     }
 }
 
-export default UsersServiceReducer;
+export default usersServiceReducer;

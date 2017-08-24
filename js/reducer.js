@@ -1,10 +1,12 @@
 // @flow
 import { combineReducers } from 'redux';
+import { reducer as network } from 'react-native-offline';
 
-import ImagesReducer from './services/Images/reducer';
-import UserReducer from './services/User/reducer';
+import ImagesReducer from './services/images/reducer';
+import UserReducer from './services/user/reducer';
 
 export default combineReducers({
-    Images: ImagesReducer,
-    User: UserReducer,
+    images: ImagesReducer,
+    network,
+    user: UserReducer,
 });

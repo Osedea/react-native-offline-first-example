@@ -1,60 +1,45 @@
 // @flow
-// import { Platform } from 'react-native';
-// import devTools from 'remote-redux-devtools';
-import { applyMiddleware, createStore, compose } from 'redux';
-import { offline } from 'redux-offline';
-import defaultConfig from 'redux-offline/lib/defaults';
+import { Platform } from 'react-native';
+import { composeWithDevTools } from 'remote-redux-devtools';
+import { applyMiddleware, createStore } from 'redux';
 import Thunk from 'redux-thunk';
+import { createNetworkMiddleware } from 'react-native-offline';
+import { persistStore, autoRehydrate } from 'redux-persist';
 import realmPersist from 'redux-persist-realm';
 
 import reducer from './reducer';
-import api from './api';
 
-const config = {
-    ...defaultConfig,
-    effect: (effect, action) => {
-        if (__DEV__) {
-            console.log('effect', effect, action);
-        }
-
-        switch (effect.method) {
-            case 'GET':
-                return api.get(effect.url);
-            case 'POST':
-                return api.post(effect.url, effect.body);
-            case 'PUT':
-                return api.put(effect.url, effect.body);
-            default:
-                console.log('No method provided to effect.');
-        }
-    },
-    detectNetwork: (callback) => {
-        api.get('/')
-            .then(() => {
-                callback(true);
-            })
-            .catch(() => {
-                callback(false);
-            });
-    },
-    persistOptions: {
-        storage: realmPersist,
-    },
-};
 const preloadedState = {};
+const networkMiddleware = createNetworkMiddleware();
+const composeEnhancers = composeWithDevTools({
+    name: Platform.OS,
+    hostname: '127.0.0.1',
+    port: 8888,
+    realtime: true,
+});
 
 const store = createStore(
     reducer,
     preloadedState,
-    compose(
-        applyMiddleware(Thunk),
-        // devTools({
-        //     name: Platform.OS,
-        //     hostname: '127.0.0.1',
-        //     port: 8888,
-        // }),
-        offline(config)
+    composeEnhancers(
+        applyMiddleware(...[
+            networkMiddleware,
+            Thunk,
+        ]),
+        autoRehydrate()
     )
 );
+
+export const persistor = persistStore(
+    store,
+    {
+        storage: realmPersist,
+        blacklist: ['network'],
+        // You can either blacklist some keys or use `whitelist` to save only the keys you need
+    }
+);
+
+// If your storage is messed up, just purge it
+// persistor.purge();
 
 export default store;

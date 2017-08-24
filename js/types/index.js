@@ -1,11 +1,9 @@
 // @flow
 import type { NavigationScreenProp } from 'react-navigation/src/TypeDefinition';
 import { StyleSheet } from 'react-native';
-import type { OfflineState as OfflineReduxOfflineState, OfflineMetadata } from 'redux-offline/src/types';
 
 export type Navigation = NavigationScreenProp;
 export type Style = StyleSheet.Styles | Array<StyleSheet.Styles>;
-export type OfflineState = OfflineReduxOfflineState;
 
 type NormalAction = {
     type: string,
@@ -23,14 +21,21 @@ type OfflineAction = {
 
 export type Action = NormalAction | OfflineAction;
 
-export type CatImage = {
-    uri: string,
+type CatImage = {
+    uuid: string,
     preview: string,
-    timestamp: string,
+    uploadedTryAt: string,
 };
 
-export type ImageToUpload = CatImage & { processing: boolean };
-export type ImagesToUpload = Array<ImageToUpload>;
+export type ImageFromServer = CatImage & {
+    _id: string,
+    likes: number,
+    liked: boolean, // Liked by the User
+};
+export type ImageToUpload = CatImage & {
+    processing?: boolean,
+    errored?: boolean,
+};
 
 export type User = {
     uuid: string,

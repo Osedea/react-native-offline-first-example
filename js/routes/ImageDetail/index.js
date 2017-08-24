@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import CatImage from 'DoOfflineFirstApps/js/components/CatImage';
 import Button from 'DoOfflineFirstApps/js/components/Button';
 import type { Navigation } from 'DoOfflineFirstApps/js/types';
-import { toggleLike } from 'DoOfflineFirstApps/js/services/Images/actions';
+import { toggleLike } from 'DoOfflineFirstApps/js/services/images/thunks';
 
 type Props = {
     navigation: Navigation,

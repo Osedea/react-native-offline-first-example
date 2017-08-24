@@ -1,43 +1,43 @@
 // @flow
 import React, { Component } from 'react';
 import {
-    ActivityIndicator,
     Dimensions,
     Image,
-    Text,
     StyleSheet,
     TouchableOpacity,
     View,
 } from 'react-native';
-import { withNetworkConnectivity } from 'react-native-offline';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import type { ImageToUpload, ImageFromServer } from 'DoOfflineFirstApps/js/types';
+import { isConnected } from 'DoOfflineFirstApps/js/services/network/selectors';
 import Button from 'DoOfflineFirstApps/js/components/Button';
+import colors from 'DoOfflineFirstApps/js/colors';
 
-type Props = {
+type Props = (ImageToUpload | ImageFromServer) & {
     isConnected: boolean,
-    likes?: number,
     onLikePress: () => void,
     onPress?: () => void,
-    preview: string,
-    processing?: boolean,
     upload?: boolean,
 };
 
 class CatImage extends Component<Props, Props, void> {
     static defaultProps = {
+        errored: false,
         processing: false,
         upload: false,
-        likes: [],
+        likes: 0,
     };
 
     handleLike = () => {
-        this.props.onLikePress(this.props.uuid);
+        this.props.onLikePress(this.props.uuid, this.props.user);
     };
 
     render() {
         let likesMention = null;
 
-        if (!this.props.upload && !this.props.processing) {
+        if (!this.props.upload && !this.props.processing && !this.props.errored) {
             likesMention =
                 this.props.likes && this.props.likes.length
                     ? (
@@ -58,12 +58,6 @@ class CatImage extends Component<Props, Props, void> {
                             text={`💔`}
                         />
                     );
-        } else if (this.props.processing) {
-            likesMention = (
-                <View style={styles.like}>
-                    <ActivityIndicator />
-                </View>
-            );
         }
 
         const content = (
@@ -76,7 +70,12 @@ class CatImage extends Component<Props, Props, void> {
                 <Image
                     source={{ uri: this.props.preview }}
                     resizeMode={'cover'}
-                    style={styles.tile}
+                    style={[
+                        styles.tile,
+                        this.props.processing || this.props.errored
+                            ? styles.smallTile
+                            : null,
+                    ]}
                 />
                 {likesMention}
             </View>
@@ -94,13 +93,12 @@ class CatImage extends Component<Props, Props, void> {
     }
 }
 
-export default withNetworkConnectivity()(CatImage);
+export default connect(
+    createStructuredSelector({
+        isConnected: isConnected(),
+    })
+)(CatImage);
 
-const colors = {
-    border: '#CCCCCC',
-    background: '#FFFFFF',
-    shadow: '#000000',
-};
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
@@ -126,5 +124,9 @@ const styles = StyleSheet.create({
     tile: {
         height: 200,
         width: Dimensions.get('window').width,
+    },
+    smallTile: {
+        height: 50,
+        width: 50,
     },
 });
