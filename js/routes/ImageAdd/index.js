@@ -81,11 +81,12 @@ class ImageAdd extends Component<Props, Props, State> {
 
     handleSendCatsPress = () => {
         this.state.images.forEach((image: ImageToUpload) => {
-            // Offline first! Optimistic UI
+            // Offline first! Let’s add our images locally first...
             this.props.addLocalImage({
                 ...image,
                 processing: true,
             });
+            // ...then try to send them to the server
             this.props.sendImage({
                 ...image,
                 processing: true,

@@ -5,9 +5,9 @@ import {
     IMAGES_GOT,
     IMAGES_GET_FAILED,
     IMAGES_GOT_NEW,
-    IMAGES_ADD,
-    IMAGES_ADDED,
-    IMAGES_ADDITION_FAILED,
+    IMAGE_ADD,
+    IMAGE_ADDED,
+    IMAGE_ADDITION_FAILED,
 } from './actions';
 
 export type ImagesState = {
@@ -43,7 +43,7 @@ function catsServiceReducer(
                 images: [...action.payload, ...state.images],
                 error: null,
             };
-        case IMAGES_ADD:
+        case IMAGE_ADD:
             return {
                 ...state,
                 pendingImages: [
@@ -52,7 +52,7 @@ function catsServiceReducer(
                 ],
                 error: null,
             };
-        case IMAGES_ADDED:
+        case IMAGE_ADDED:
             return {
                 ...state,
                 images: [
@@ -61,7 +61,7 @@ function catsServiceReducer(
                 ],
                 error: null,
             };
-        case IMAGES_ADDITION_FAILED:
+        case IMAGE_ADDITION_FAILED:
             return {
                 ...state,
                 pendingImages: state.pendingImages.filter(

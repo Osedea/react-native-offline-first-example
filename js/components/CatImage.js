@@ -19,12 +19,14 @@ type Props = (ImageToUpload | ImageFromServer) & {
     isConnected: boolean,
     onLikePress: () => void,
     onPress?: () => void,
+    queue?: boolean,
     upload?: boolean,
 };
 
 class CatImage extends Component<Props, Props, void> {
     static defaultProps = {
         errored: false,
+        queue: false,
         processing: false,
         upload: false,
         likes: 0,
@@ -72,7 +74,7 @@ class CatImage extends Component<Props, Props, void> {
                     resizeMode={'cover'}
                     style={[
                         styles.tile,
-                        this.props.processing || this.props.errored
+                        this.props.queue
                             ? styles.smallTile
                             : null,
                     ]}

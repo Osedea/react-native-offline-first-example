@@ -103,6 +103,7 @@ class HomeScreen extends Component<void, Props, void> {
                         <CatImage
                             {...image}
                             key={`errored-${image.uploadedTryAt}`}
+                            queue
                             errored
                         />
                     ))}
@@ -120,6 +121,8 @@ class HomeScreen extends Component<void, Props, void> {
                         <CatImage
                             {...image}
                             key={`pending-${image.uploadedTryAt}`}
+                            onPress={this.createCatImagePressHandler(image)}
+                            queue
                         />
                     ))}
                     <ActivityIndicator style={styles.loader} />
