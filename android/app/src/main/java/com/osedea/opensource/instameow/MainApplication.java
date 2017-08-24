@@ -1,4 +1,4 @@
-package com.doofflinefirstapps;
+package com.osedea.opensource.instameow;
 
 import android.app.Application;
 
