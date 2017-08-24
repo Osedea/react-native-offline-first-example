@@ -1,0 +1,9 @@
+.env
+# fastlane specific
+report.xml
+# deliver temporary files
+Preview.html
+# snapshot generated screenshots
+screenshots
+# scan temporary files
+test_output
