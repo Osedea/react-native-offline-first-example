@@ -10,7 +10,11 @@ import { Provider } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { withNetworkConnectivity } from 'react-native-offline';
 
+import type { ImageToUpload } from 'DoOfflineFirstApps/js/types';
+import { selectPendingImages } from 'DoOfflineFirstApps/js/services/images/selectors';
+import { setLocalUser } from 'DoOfflineFirstApps/js/services/user/actions';
 import getAndSetUser from 'DoOfflineFirstApps/js/services/user/thunks';
+import { retryImages } from 'DoOfflineFirstApps/js/services/images/thunks';
 import colors from 'DoOfflineFirstApps/js/colors';
 
 import { API_URL } from './api';
@@ -46,14 +50,20 @@ const Navigator = stack({
 const App = withNetworkConnectivity({
     withRedux: true,
     pingServerUrl: API_URL,
-    checkIntervalWhenOffline: 3000,
+    checkConnectionInterval: 3000,
 })(Navigator);
 
 export default class DoOfflineFirstApps extends Component {
     componentWillMount() {
-        if (!store.getState().user.saved) {
-            store.dispatch(getAndSetUser({ uuid: DeviceInfo.getUniqueID() }));
+        const user = { uuid: DeviceInfo.getUniqueID() };
+
+        if (!store.getState().user.data) {
+            store.dispatch(setLocalUser(user));
         }
+
+        store.dispatch(getAndSetUser(user));
+        // Retry Images if some are pending
+        store.dispatch(retryImages(selectPendingImages()(store.getState())));
     }
 
     render() {

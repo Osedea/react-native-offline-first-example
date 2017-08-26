@@ -13,15 +13,14 @@ const api = create({
 });
 
 api.addResponseTransform((response) => {
-    if (response.status >= 400) {
-        const error = new Error(response.status);
+    if (response.status >= 400 || !response.ok) {
+        const error = new Error(response.status || response.problem);
 
+        error.status = response.status;
         error.response = response;
 
         throw error;
     }
-
-    return response;
 });
 
 export default api;

@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 
 import BasicContainer from 'DoOfflineFirstApps/js/components/BasicContainer';
 import Button from 'DoOfflineFirstApps/js/components/Button';
-import { getImages, toggleLike } from 'DoOfflineFirstApps/js/services/images/thunks';
+import { getImages, getNewImages, toggleLike, retryImages } from 'DoOfflineFirstApps/js/services/images/thunks';
 import { selectImages, selectErroredImages, selectPendingImages } from 'DoOfflineFirstApps/js/services/images/selectors';
 import { isConnected } from 'DoOfflineFirstApps/js/services/network/selectors';
 import type { ImageFromServer, ImageToUpload, Navigation } from 'DoOfflineFirstApps/js/types';
@@ -30,9 +30,14 @@ type Props = {
     isConnected: boolean,
     pendingImages: [ImageToUpload],
     onLikePress: () => void,
+    onRefresh: () => void,
+    retryImages: () => void,
+};
+type State = {
+    refreshing: boolean,
 };
 
-class HomeScreen extends Component<void, Props, void> {
+class HomeScreen extends Component<void, Props, State> {
     static navigationOptions = ({
         navigation,
     }: {
@@ -62,11 +67,18 @@ class HomeScreen extends Component<void, Props, void> {
         images: [],
     };
 
+    state = { refreshing: false };
+
+    componentWillReceiveProps() {
+        this.setState({ refreshing: false });
+    }
+
     handleGetMorePress = () => {
+        this.setState({ refreshing: true });
         this.props.getImages();
     };
     handleRetryErroredPress = () => {
-        // TODO:
+        this.props.retryImages(this.props.erroredImages);
     };
 
     createCatImagePressHandler = (catImage: ImageToUpload | ImageFromServer) => () => {
@@ -108,6 +120,7 @@ class HomeScreen extends Component<void, Props, void> {
                         />
                     ))}
                     <Button
+                        style={styles.retry}
                         text={'Retry'}
                         onPress={this.handleRetryErroredPress}
                     />
@@ -145,6 +158,8 @@ class HomeScreen extends Component<void, Props, void> {
                     renderItem={this._renderItem}
                     keyExtractor={this._extractKey}
                     data={this.props.images}
+                    onRefresh={this.props.onRefresh}
+                    refreshing={this.state.refreshing}
                     ListEmptyComponent={this.props.isConnected
                         ? null
                         : <Image
@@ -156,8 +171,9 @@ class HomeScreen extends Component<void, Props, void> {
                     ListHeaderComponent={headerComponent}
                     ListFooterComponent={this.props.isConnected
                         ? <Button
+                            style={styles.getMore}
                             onPress={this.handleGetMorePress}
-                            text={'Give me some 😻 !'}
+                            text={`Give me some ${this.props.images.length ? 'more' : ''} 😻 !`}
                         />
                         : null
                     }
@@ -178,6 +194,8 @@ const mapDispatchToProps = (dispatch) =>
         {
             getImages,
             onLikePress: toggleLike,
+            onRefresh: getNewImages,
+            retryImages,
         },
         dispatch
     );
@@ -213,5 +231,12 @@ const styles = StyleSheet.create({
     },
     loader: {
         margin: 10,
+    },
+    getMore: {
+        marginBottom: 20,
+    },
+    retry: {
+        marginTop: 0,
+        marginLeft: 10,
     },
 });

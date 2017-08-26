@@ -16,6 +16,8 @@ import Button from 'DoOfflineFirstApps/js/components/Button';
 import colors from 'DoOfflineFirstApps/js/colors';
 
 type Props = (ImageToUpload | ImageFromServer) & {
+    big?: boolean,
+    errored?: boolean,
     isConnected: boolean,
     onLikePress: () => void,
     onPress?: () => void,
@@ -25,6 +27,7 @@ type Props = (ImageToUpload | ImageFromServer) & {
 
 class CatImage extends Component<Props, Props, void> {
     static defaultProps = {
+        big: false,
         errored: false,
         queue: false,
         processing: false,
@@ -67,6 +70,7 @@ class CatImage extends Component<Props, Props, void> {
                 style={[
                     styles.container,
                     this.props.processing ? styles.processing : null,
+                    this.props.errored ? styles.errored : null,
                 ]}
             >
                 <Image
@@ -76,6 +80,9 @@ class CatImage extends Component<Props, Props, void> {
                         styles.tile,
                         this.props.queue
                             ? styles.smallTile
+                            : null,
+                        this.props.big
+                            ? styles.bigTile
                             : null,
                     ]}
                 />
@@ -123,6 +130,10 @@ const styles = StyleSheet.create({
     processing: {
         opacity: 0.4,
     },
+    errored: {
+        borderWidth: 1,
+        borderColor: colors.error,
+    },
     tile: {
         height: 200,
         width: Dimensions.get('window').width,
@@ -130,5 +141,8 @@ const styles = StyleSheet.create({
     smallTile: {
         height: 50,
         width: 50,
+    },
+    bigTile: {
+        height: Dimensions.get('window').height - 140,
     },
 });

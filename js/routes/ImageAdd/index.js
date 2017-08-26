@@ -44,7 +44,7 @@ class ImageAdd extends Component<Props, Props, State> {
     pickerOptions = {
         title: 'Select A Picture of Cat',
         maxWidth: Dimensions.get('window').width,
-        maxHeight: Dimensions.get('window').width * 9 / 16, // 16:9 ratio
+        maxHeight: Dimensions.get('window').width,
         quality: 0.8,
         storageOptions: {
             skipBackup: true,
@@ -101,7 +101,9 @@ class ImageAdd extends Component<Props, Props, State> {
 
     render() {
         return (
-            <ScrollContainer>
+            <ScrollContainer
+                contentContainerStyle={styles.container}
+            >
                 {this.state.images.length === 0
                     ? <Button
                         text={'Pick an image of 🐈'}
@@ -163,5 +165,8 @@ const styles = StyleSheet.create({
     },
     imagesList: {
         flex: 1,
+    },
+    container: {
+        paddingBottom: 20,
     },
 });

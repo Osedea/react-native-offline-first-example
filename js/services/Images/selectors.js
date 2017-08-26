@@ -1,6 +1,6 @@
 // @flow
 import { createSelector } from 'reselect';
-import type { CatImage } from 'DoOfflineFirstApps/js/types';
+import type { ImageToUpload, ImageFromServer } from 'DoOfflineFirstApps/js/types';
 
 import type { ImagesState } from './reducer';
 
@@ -12,17 +12,17 @@ const selectImagesState = () => (state): ImagesState => state.images;
 export const selectImages = (): Function =>
     createSelector(
         selectImagesState(),
-        (substate: ImagesState): Array<CatImage> => substate.images
+        (substate: ImagesState): Array<ImageFromServer> => substate.images
     );
 
 export const selectErroredImages = (): Function =>
     createSelector(
         selectImagesState(),
-        (substate: ImagesState): Array<CatImage> => substate.erroredImages
+        (substate: ImagesState): Array<ImageToUpload> => substate.erroredImages
     );
 
 /* If you are not using redux-offline, you can handle the pending Images yourself! */
 export const selectPendingImages = (): Function => createSelector(
     selectImagesState(),
-    (substate): Array<CatImage> => substate.pendingImages
+    (substate): Array<ImageToUpload> => substate.pendingImages
 );

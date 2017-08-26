@@ -13,7 +13,7 @@
     "react-native": "0.47.1",
     "react-native-device-info": "^0.11.0",
     "react-native-image-picker": "^0.26.4",
-    "react-native-offline": "file:///Users/osedea/Projects/OpenSource/react-native-offline",
+    "react-native-offline": "Osedea/react-native-offline#feature/add-ability-to-recheck-connectivity-regularly",
     "react-native-share": "^1.0.20",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.6",

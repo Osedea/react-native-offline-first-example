@@ -23,7 +23,10 @@ function usersServiceReducer(state: UserState = initialState, action: Action) {
                 error: null,
             };
         case GET_USER_FAILED:
-            return { error: action.payload };
+            return {
+                ...state,
+                error: action.payload,
+            };
         default:
             return state;
     }

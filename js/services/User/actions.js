@@ -8,9 +8,9 @@ export const setLocalUser = (user: User): Action => ({
     type: SET_USER,
     payload: {
         ...user,
-        // We are adding `saved: false` only as long as we don't
+        // We are adding `processing: true` only as long as we don't
         // get one response of the server
-        saved: false,
+        processing: true,
     },
 });
 export const setUser = (user: User): Action => ({

@@ -6,8 +6,9 @@ import {
     IMAGES_GET_FAILED,
     IMAGES_GOT_NEW,
     IMAGE_ADD,
-    IMAGE_ADDED,
-    IMAGE_ADDITION_FAILED,
+    IMAGE_ADD_SUCCESS,
+    IMAGE_ADD_FAILURE,
+    IMAGE_RETRY,
 } from './actions';
 
 export type ImagesState = {
@@ -52,22 +53,40 @@ function catsServiceReducer(
                 ],
                 error: null,
             };
-        case IMAGE_ADDED:
+        case IMAGE_ADD_SUCCESS:
             return {
                 ...state,
                 images: [
                     action.payload,
                     ...state.images,
                 ],
+                pendingImages: [
+                    ...state.pendingImages.filter(
+                        (image: ImageToUpload) => image.uuid !== action.payload.uuid
+                    ),
+                ],
                 error: null,
             };
-        case IMAGE_ADDITION_FAILED:
+        case IMAGE_ADD_FAILURE:
             return {
                 ...state,
-                pendingImages: state.pendingImages.filter(
-                    (image: ImageToUpload) => image.uuid !== action.meta.image.uuid
-                ),
+                pendingImages: [
+                    ...state.pendingImages.filter(
+                        (image: ImageToUpload) => image.uuid !== action.meta.image.uuid
+                    ),
+                ],
                 erroredImages: [...state.erroredImages, action.meta.image],
+                error: action.payload,
+            };
+        case IMAGE_RETRY:
+            return {
+                ...state,
+                pendingImages: [...state.pendingImages, action.payload],
+                erroredImages: [
+                    ...state.erroredImages.filter(
+                        (image: ImageToUpload) => image.uuid !== action.payload.uuid
+                    ),
+                ],
                 error: action.payload,
             };
         default:

@@ -3,7 +3,6 @@ import type { User } from 'DoOfflineFirstApps/js/types';
 import makeOfflineInterceptable from 'DoOfflineFirstApps/js/services/offlineHelper';
 import {
     SET_USER,
-    setLocalUser,
     setUser,
     setUserError,
 } from './actions';
@@ -14,16 +13,14 @@ import {
 
 const getAndSetUser = (user: User) => makeOfflineInterceptable(
     (dispatch: () => void) => {
-        dispatch(setLocalUser(user));
-
         getUser(user)
-            .then((data: User) => {
+            .then(({ data }: { data: User }) => {
                 dispatch(setUser(data));
             })
             .catch((error: Error) => {
                 if (error.status === 404) {
                     createUser(user)
-                        .then((data: User) => {
+                        .then(({ data }: { data: User }) => {
                             dispatch(setUser(data));
                         })
                         .catch((createError: Error) => {

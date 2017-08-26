@@ -4612,9 +4612,9 @@ react-native-image-picker@^0.26.4:
   version "0.26.4"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.4.tgz#e53b0564bef44cb3c96ff81594e1e874daa1f0b3"
 
-react-native-offline@^3.1.0:
+react-native-offline@Osedea/react-native-offline#feature/add-ability-to-recheck-connectivity-regularly:
   version "3.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-offline/-/react-native-offline-3.1.0.tgz#f77356647d26cef6f888ef4532073af1315f553c"
+  resolved "https://codeload.github.com/Osedea/react-native-offline/tar.gz/de55584053227df003f75400a7d2b966f8a638db"
   dependencies:
     hoist-non-react-statics "^1.2.0"
     lodash "^4.17.4"

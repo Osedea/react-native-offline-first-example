@@ -21,20 +21,25 @@ export const gotNewImages = (data: Array<ImageFromServer>): Action => ({
 });
 
 export const IMAGE_ADD = 'IMAGES/IMAGE_ADD';
-export const IMAGE_ADDED = 'IMAGES/IMAGE_ADDED';
-export const IMAGE_ADDITION_FAILED = 'IMAGES/IMAGE_ADDITION_FAILED';
+export const IMAGE_ADD_SUCCESS = 'IMAGES/IMAGE_ADD_SUCCESS';
+export const IMAGE_ADD_FAILURE = 'IMAGES/IMAGE_ADD_FAILURE';
+export const IMAGE_RETRY = 'IMAGES/IMAGE_RETRY';
 export const createCancelActionType = (uuid: string) => `IMAGES/CANCEL_ADD/${uuid}`;
 
+export const retryImage = (data: ImageToUpload): Action => ({
+    type: IMAGE_RETRY,
+    payload: data,
+});
 export const queueImage = (data: ImageToUpload): Action => ({
     type: IMAGE_ADD,
     payload: data,
 });
 export const addedImage = (data: ImageFromServer): Action => ({
-    type: IMAGE_ADDED,
+    type: IMAGE_ADD_SUCCESS,
     payload: data,
 });
 export const addImageFailed = (error: Error, image: ImageToUpload): Action => ({
-    type: IMAGE_ADDITION_FAILED,
+    type: IMAGE_ADD_FAILURE,
     payload: error,
     meta: {
         image,

@@ -44,6 +44,7 @@ class ImageDetailScreen extends Component<void, Props, void> {
                 <CatImage
                     {...this.props.navigation.state.params}
                     onLikePress={this.props.onLikePress}
+                    big
                 />
                 <Button
                     text={'Share the 💞'}
