@@ -4,6 +4,7 @@ import {
     Dimensions,
     Image,
     StyleSheet,
+    Text,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -21,6 +22,8 @@ type Props = (ImageToUpload | ImageFromServer) & {
     isConnected: boolean,
     onLikePress: () => void,
     onPress?: () => void,
+    onReportPress: () => void,
+    removeImage: () => void,
     queue?: boolean,
     upload?: boolean,
 };
@@ -39,30 +42,57 @@ class CatImage extends Component<Props, Props, void> {
         this.props.onLikePress(this.props.uuid, this.props.user);
     };
 
-    render() {
-        let likesMention = null;
+    handleReport = () => {
+        this.props.onReportPress(this.props.uuid);
+        setTimeout(() => this.props.removeImage(this.props.uuid), 2000);
+    };
 
-        if (!this.props.upload && !this.props.processing && !this.props.errored) {
-            likesMention =
-                this.props.likes && this.props.likes.length
-                    ? (
-                        <Button
-                            style={styles.like}
-                            onPress={
-                                this.props.isConnected ? this.handleLike : null
-                            }
-                            text={`${this.props.likes.length} ❤️`}
-                        />
-                    )
-                    : (
-                        <Button
-                            style={styles.like}
-                            onPress={
-                                this.props.isConnected ? this.handleLike : null
-                            }
-                            text={`💔`}
-                        />
-                    );
+    render() {
+        if (this.props.reported) {
+            return (
+                <View style={styles.reported}>
+                    <Text style={styles.reportedText}>
+                        {'This image has been reported'}
+                    </Text>
+                </View>
+            );
+        }
+
+        let likes = null;
+        let report = null;
+
+        // if (!this.props.upload && !this.props.processing && !this.props.errored) {
+        //     likes =
+        //         this.props.likes && this.props.likes.length
+        //             ? (
+        //                 <Button
+        //                     style={styles.like}
+        //                     onPress={
+        //                         this.props.isConnected ? this.handleLike : null
+        //                     }
+        //                     text={`${this.props.likes.length} ❤️`}
+        //                 />
+        //             )
+        //             : (
+        //                 <Button
+        //                     style={styles.like}
+        //                     onPress={
+        //                         this.props.isConnected ? this.handleLike : null
+        //                     }
+        //                     text={`💔`}
+        //                 />
+        //             );
+        // }
+        if (!this.props.upload && !this.props.processing && !this.props.errored && this.props.isConnected) {
+            report = (
+                <Button
+                    style={[
+                        styles.report,
+                    ]}
+                    onPress={this.handleReport}
+                    text={`🚩`}
+                />
+            );
         }
 
         const content = (
@@ -86,7 +116,8 @@ class CatImage extends Component<Props, Props, void> {
                             : null,
                     ]}
                 />
-                {likesMention}
+                {likes}
+                {report}
             </View>
         );
 
@@ -121,11 +152,18 @@ const styles = StyleSheet.create({
         },
     },
     like: {
-        padding: 10,
         position: 'absolute',
         bottom: 5,
         right: 5,
+        padding: 10,
         backgroundColor: colors.background,
+    },
+    report: {
+        position: 'absolute',
+        top: 0,
+        right: 5,
+        backgroundColor: colors.transparent,
+        borderWidth: 0,
     },
     processing: {
         opacity: 0.4,
@@ -144,5 +182,13 @@ const styles = StyleSheet.create({
     },
     bigTile: {
         height: Dimensions.get('window').height - 140,
+    },
+    reported: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: colors.lightOrange,
+    },
+    reportedText: {
+        textAlign: 'center',
     },
 });

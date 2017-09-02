@@ -9,6 +9,8 @@ import {
     IMAGE_ADD_SUCCESS,
     IMAGE_ADD_FAILURE,
     IMAGE_RETRY,
+    IMAGE_REPORT,
+    IMAGE_REMOVE,
 } from './actions';
 
 export type ImagesState = {
@@ -77,6 +79,31 @@ function catsServiceReducer(
                 ],
                 erroredImages: [...state.erroredImages, action.meta.image],
                 error: action.payload,
+            };
+        case IMAGE_REPORT:
+            return {
+                ...state,
+                images: state.images.map(
+                    (image: ImageFromServer) => {
+                        if (image.uuid === action.payload) {
+                            return {
+                                ...image,
+                                reported: true,
+                            };
+                        }
+
+                        return image;
+                    }
+                ),
+            };
+        case IMAGE_REMOVE:
+            return {
+                ...state,
+                images: [
+                    ...state.images.filter(
+                        (image: ImageFromServer) => image.uuid !== action.payload
+                    ),
+                ],
             };
         case IMAGE_RETRY:
             return {

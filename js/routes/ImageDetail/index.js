@@ -13,10 +13,13 @@ import CatImage from 'DoOfflineFirstApps/js/components/CatImage';
 import Button from 'DoOfflineFirstApps/js/components/Button';
 import type { Navigation } from 'DoOfflineFirstApps/js/types';
 import { toggleLike } from 'DoOfflineFirstApps/js/services/images/thunks';
+import { reportImage, removeImage } from 'DoOfflineFirstApps/js/services/images/actions';
 
 type Props = {
     navigation: Navigation,
     onLikePress: () => void,
+    onReportPress: () => void,
+    removeImage: () => void,
 };
 
 class ImageDetailScreen extends Component<void, Props, void> {
@@ -44,6 +47,8 @@ class ImageDetailScreen extends Component<void, Props, void> {
                 <CatImage
                     {...this.props.navigation.state.params}
                     onLikePress={this.props.onLikePress}
+                    onReportPress={this.props.onReportPress}
+                    removeImage={this.props.removeImage}
                     big
                 />
                 <Button
@@ -58,7 +63,11 @@ class ImageDetailScreen extends Component<void, Props, void> {
 const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators(
-        { onLikePress: toggleLike },
+        {
+            onLikePress: toggleLike,
+            onReportPress: reportImage,
+            removeImage,
+        },
         dispatch
     );
 

@@ -16,6 +16,7 @@ import BasicContainer from 'DoOfflineFirstApps/js/components/BasicContainer';
 import Button from 'DoOfflineFirstApps/js/components/Button';
 import { getImages, getNewImages, toggleLike, retryImages } from 'DoOfflineFirstApps/js/services/images/thunks';
 import { selectImages, selectErroredImages, selectPendingImages } from 'DoOfflineFirstApps/js/services/images/selectors';
+import { reportImage, removeImage } from 'DoOfflineFirstApps/js/services/images/actions';
 import { isConnected } from 'DoOfflineFirstApps/js/services/network/selectors';
 import type { ImageFromServer, ImageToUpload, Navigation } from 'DoOfflineFirstApps/js/types';
 import colors from 'DoOfflineFirstApps/js/colors';
@@ -31,7 +32,9 @@ type Props = {
     pendingImages: [ImageToUpload],
     onLikePress: () => void,
     onRefresh: () => void,
+    onReportPress: () => void,
     retryImages: () => void,
+    removeImage: () => void,
 };
 type State = {
     refreshing: boolean,
@@ -92,6 +95,8 @@ class HomeScreen extends Component<void, Props, State> {
             {...item}
             onPress={this.createCatImagePressHandler(item)}
             onLikePress={this.props.onLikePress}
+            onReportPress={this.props.onReportPress}
+            removeImage={this.props.removeImage}
         />
     );
 
@@ -195,7 +200,9 @@ const mapDispatchToProps = (dispatch) =>
             getImages,
             onLikePress: toggleLike,
             onRefresh: getNewImages,
+            onReportPress: reportImage,
             retryImages,
+            removeImage,
         },
         dispatch
     );

@@ -57,3 +57,15 @@ export const toggleLikeFailed = (error: Error): Action => ({
     type: TOGGLE_LIKE_FAILED,
     payload: error,
 });
+
+export const IMAGE_REPORT = 'IMAGES/IMAGE_REPORT';
+export const reportImage = (uuid: string): Action => ({
+    type: IMAGE_REPORT,
+    payload: uuid,
+});
+
+export const IMAGE_REMOVE = 'IMAGES/IMAGE_REMOVE';
+export const removeImage = (uuid: string): Action => ({
+    type: IMAGE_REMOVE,
+    payload: uuid,
+});
