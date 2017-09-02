@@ -700,7 +700,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 9NPK5F7XQ7;
+						DevelopmentTeam = H8H6658XPL;
 						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -1232,7 +1232,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 9NPK5F7XQ7;
+				DEVELOPMENT_TEAM = H8H6658XPL;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
@@ -1249,7 +1249,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.osedea.opensource.instameow;
 				PRODUCT_NAME = DoOfflineFirstApps;
-				PROVISIONING_PROFILE = "71c50ece-fb01-4895-8441-4ed19da40f6a";
+				PROVISIONING_PROFILE = "ffae1834-725c-4bc4-b6c4-65f433a78362";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.osedea.opensource.instameow";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1262,7 +1262,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9NPK5F7XQ7;
+				DEVELOPMENT_TEAM = H8H6658XPL;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
@@ -1279,7 +1279,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.osedea.opensource.instameow;
 				PRODUCT_NAME = DoOfflineFirstApps;
-				PROVISIONING_PROFILE = "71c50ece-fb01-4895-8441-4ed19da40f6a";
+				PROVISIONING_PROFILE = "ffae1834-725c-4bc4-b6c4-65f433a78362";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.osedea.opensource.instameow";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
