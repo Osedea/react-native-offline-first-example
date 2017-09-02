@@ -3,4 +3,4 @@
 # https://github.com/fastlane/fastlane/blob/master/deliver/Deliverfile.md
 
 app_identifier "com.osedea.opensource.instameow" # The bundle identifier of your app
-# username "adrien.thiery@osedea.com" # your Apple ID user
+username ENV['APPLE_ID']
