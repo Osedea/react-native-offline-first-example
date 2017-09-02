@@ -3,7 +3,9 @@
 import { create } from 'apisauce';
 import { withNetworkConnectivity } from 'react-native-offline';
 
-export const API_URL = 'http://localhost:3030';
+export const API_URL = __DEV__
+    ? 'http://localhost:3030'
+    : 'http://138.197.149.40';
 export const withCheckInternet = withNetworkConnectivity({
     pingServerUrl: API_URL,
 });
