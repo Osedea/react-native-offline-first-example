@@ -14,7 +14,7 @@
     "react-native-device-info": "^0.11.0",
     "react-native-image-picker": "^0.26.4",
     "react-native-offline": "Osedea/react-native-offline#feature/add-ability-to-recheck-connectivity-regularly",
-    "react-native-share": "^1.0.20",
+    "react-native-share": "^1.0.21",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.6",
     "realm": "^1.8.3",

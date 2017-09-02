@@ -4619,15 +4619,9 @@ react-native-offline@Osedea/react-native-offline#feature/add-ability-to-recheck-
     hoist-non-react-statics "^1.2.0"
     lodash "^4.17.4"
 
-"react-native-offline@file:///Users/osedea/Projects/OpenSource/react-native-offline":
-  version "3.1.0"
-  dependencies:
-    hoist-non-react-statics "^1.2.0"
-    lodash "^4.17.4"
-
-react-native-share@^1.0.20:
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.20.tgz#38ba820a4ddfc5afe1dec0e1456ced11f14352bc"
+react-native-share@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.21.tgz#45cc1c7bae5af8e6e88b77c3bfa23fb88521a354"
 
 react-native-tab-view@^0.0.65:
   version "0.0.65"
