@@ -1,0 +1,2 @@
+json_key_file "app/f10b37d7bbc4.json" # Path to the json secret file - Follow https://github.com/fastlane/supply#setup to get one
+package_name "com.osedea.opensource.instameow" # e.g. com.krausefx.app

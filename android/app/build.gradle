@@ -99,9 +99,23 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty('INSTAMEOW_RELEASE_STORE_FILE')) {
+                storeFile file(INSTAMEOW_RELEASE_STORE_FILE)
+                storePassword INSTAMEOW_RELEASE_STORE_PASSWORD
+                keyAlias INSTAMEOW_RELEASE_KEY_ALIAS
+                keyPassword INSTAMEOW_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
     splits {
         abi {
@@ -115,6 +129,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
