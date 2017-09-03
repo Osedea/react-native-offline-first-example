@@ -4,7 +4,7 @@ import api from 'DoOfflineFirstApps/js/api';
 
 export const getCatImages = () => api.get('/cats');
 
-export const getMoreCatImages = (already: number) => api.get(`/cats?skip=${already}`);
+export const getMoreCatImages = (already: number) => api.get(`/cats?$skip=${already}`);
 
 export const getCatImagesSince = (date: string) =>
     api.get(`/cats?since=${date}`);

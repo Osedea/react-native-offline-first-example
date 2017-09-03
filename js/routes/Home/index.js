@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 
 import BasicContainer from 'DoOfflineFirstApps/js/components/BasicContainer';
 import Button from 'DoOfflineFirstApps/js/components/Button';
-import { getImages, getNewImages, toggleLike, retryImages } from 'DoOfflineFirstApps/js/services/images/thunks';
+import { getImages, getMoreImages, getNewImages, toggleLike, retryImages } from 'DoOfflineFirstApps/js/services/images/thunks';
 import { selectImages, selectErroredImages, selectPendingImages } from 'DoOfflineFirstApps/js/services/images/selectors';
 import { reportImage, removeImage } from 'DoOfflineFirstApps/js/services/images/actions';
 import { isConnected } from 'DoOfflineFirstApps/js/services/network/selectors';
@@ -27,6 +27,7 @@ import CatImage from 'DoOfflineFirstApps/js/components/CatImage';
 type Props = {
     erroredImages: [ImageToUpload],
     getImages: () => void,
+    getMoreImages: () => void,
     images: [ImageFromServer],
     isConnected: boolean,
     pendingImages: [ImageToUpload],
@@ -77,8 +78,12 @@ class HomeScreen extends Component<void, Props, State> {
     }
 
     handleGetMorePress = () => {
-        this.setState({ refreshing: true });
-        this.props.getImages();
+        if (this.props.images.length) {
+            this.props.getMoreImages();
+        } else {
+            this.setState({ refreshing: true });
+            this.props.getImages();
+        }
     };
     handleRetryErroredPress = () => {
         this.props.retryImages(this.props.erroredImages);
@@ -163,7 +168,7 @@ class HomeScreen extends Component<void, Props, State> {
                     renderItem={this._renderItem}
                     keyExtractor={this._extractKey}
                     data={this.props.images}
-                    onRefresh={this.props.onRefresh}
+                    onRefresh={this.props.isConnected ? this.props.onRefresh : null}
                     refreshing={this.state.refreshing}
                     ListEmptyComponent={this.props.isConnected
                         ? null
@@ -198,6 +203,7 @@ const mapDispatchToProps = (dispatch) =>
     bindActionCreators(
         {
             getImages,
+            getMoreImages,
             onLikePress: toggleLike,
             onRefresh: getNewImages,
             onReportPress: reportImage,

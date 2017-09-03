@@ -37,7 +37,7 @@ export const getImages = () => makeOfflineInterceptable(
 export const getNewImages = () => makeOfflineInterceptable(
     (dispatch: () => void, getState: Function) => {
         const imagesCreated = selectImages()(getState()).filter(
-            (image) => image.uploadedTryAt
+            (image: ImageFromServer) => image.uploadedTryAt
         );
         if (imagesCreated.length && imagesCreated[0] && imagesCreated[0].uploadedTryAt) {
             getCatImagesSince(imagesCreated[0].uploadedTryAt)
@@ -55,7 +55,7 @@ export const getMoreImages = () => makeOfflineInterceptable(
     (dispatch: () => void, getState: Function) => {
         getMoreCatImages(selectImages()(getState()).length)
             .then(({ data }: { data: Array<ImageFromServer> }) => {
-                dispatch(gotNewImages(data));
+                dispatch(gotImages(data));
             })
             .catch((error: Error) => {
                 dispatch(getImagesFailed(error));
