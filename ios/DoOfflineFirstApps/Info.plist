@@ -44,8 +44,8 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share your cats with the world</string>
-
-
+	<key>NSCameraUsageDescription</key>
+	<string>Take photos of your cats to share with the world</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
