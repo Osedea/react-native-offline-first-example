@@ -1,0 +1,1 @@
+Example app created for React Native EU 2017 in Wroclaw, Poland to illustrate how to do Offline first Apps in React Native

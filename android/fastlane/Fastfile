@@ -28,9 +28,9 @@ platform :android do
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
     gradle(task: "assembleRelease")
-    # crashlytics
-
     sh "echo \"Copying apk to builds folder\" && cp ../app/build/outputs/apk/app-release.apk ../../builds/release-build-$(date +\"%Y_%m_%d-%H%M00\").apk"
+    # crashlytics
+    supply(track: 'beta')
   end
 
   desc "Deploy a new version to the Google Play"
@@ -61,5 +61,5 @@ end
 # More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
 # All available actions: https://docs.fastlane.tools/actions
 
-# fastlane reports which actions are used. No personal data is recorded. 
+# fastlane reports which actions are used. No personal data is recorded.
 # Learn more at https://github.com/fastlane/fastlane#metrics
