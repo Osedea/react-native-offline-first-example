@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import {
-    Platform,
     StyleSheet,
     View,
 } from 'react-native';
@@ -30,10 +29,7 @@ class ImageDetailScreen extends Component<void, Props, void> {
     handleAppShare = () => {
         Share
             .open({
-                url: Platform.select({
-                    ios: '',
-                    android: '',
-                }),
+                url: 'https://github.com/Osedea/react-native-offline-first-example',
                 message: 'Loving cats? Download me!',
             })
             .catch((error: Error) => {
