@@ -33,7 +33,7 @@ platform :ios do
         build_number: latest_testflight_build_number + 1
     })
     gym(scheme: "DoOfflineFirstApps") # Build your app - more options available
-    pilot
+    pilot(skip_waiting_for_build_processing: true)
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
