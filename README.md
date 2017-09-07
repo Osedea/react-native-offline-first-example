@@ -4,11 +4,11 @@
 
 Example App using best practices for React Native offline behaviour (InstaMeow) presented at React Native EU 2017
 
-The app is available on the [App Store](#TODO) and on the [Play Store](#TODO).
+The app is available on the ~~[App Store]()~~ (Apple refused the app because too simple) and on the [Play Store](https://play.google.com/store/apps/details?id=com.osedea.opensource.instameow).
 
 The backend is also available here: [Osedea/react-native-offline-first-example-backend](https://github.com/Osedea/react-native-offline-first-example-backend.git)
 
-The slides of the présentation will be added to this repository when ready.
+The slides of the présentation are available [here](https://drive.google.com/file/d/0BxhLn2aaHQA3TDJfenY1bVc4QWc/view?usp=sharing) (I'm sorry, it's a Keynote file, so you'll need to download it).
 
 ## Concepts
 
