@@ -30,7 +30,8 @@ platform :ios do
   lane :beta do
     match({
       type: "appstore",
-      username: ENV['APPLE_ID']
+      username: ENV['APPLE_ID'],
+      readonly: true
     }) # more information: https://codesigning.guide
     increment_build_number
     gym(scheme: "DoOfflineFirstApps") # Build your app - more options available
