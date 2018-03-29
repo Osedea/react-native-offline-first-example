@@ -97,7 +97,7 @@ android {
         applicationId "com.osedea.opensource.instameow"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 12
+        versionCode project.hasProperty('versionCode') ? versionCode.toInteger() : -1
         versionName "1.0"
         multiDexEnabled true
         ndk {
