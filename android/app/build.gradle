@@ -126,7 +126,7 @@ android {
                 keyAlias INSTAMEOW_RELEASE_KEY_ALIAS
                 keyPassword INSTAMEOW_RELEASE_KEY_PASSWORD
             }
-            if (System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS"))) {
+            if (System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")) {
                 keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
                 keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
                 storeFile file('../keystores/app.keystore')
