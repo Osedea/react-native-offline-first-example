@@ -20,6 +20,18 @@ platform :android do
     # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
   end
 
+  def increment_version_code(gradle_build, track='beta')
+    oldVersionCode = google_play_track_version_codes(track: track).first.to_i
+    newVersionCode = oldVersionCode + 1
+    path = gradle_build
+    re = /versionCode\s+(\d+)/
+    s = File.read(path)
+    s[re, 1] = (newVersionCode).to_s
+    f = File.new(path, 'w')
+    f.write(s)
+    f.close
+  end
+
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
@@ -27,16 +39,8 @@ platform :android do
 
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    oldVersionCode = google_play_track_version_codes(track: 'beta').first.to_i
-    newVersionCode = oldVersionCode + 1
-    puts newVersionCode
-
-    gradle(
-      task: "assembleRelease",
-      properties: {
-        "versionCode" => newVersionCode
-      }
-    )
+    increment_version_code track: 'beta', gradle_build: '../app/build.gradle'
+    gradle(task: "assembleRelease")
     sh "echo \"Copying apk to builds folder\" && cp ../app/build/outputs/apk/app-release.apk ../../builds/release-build-$(date +\"%Y_%m_%d-%H%M00\").apk"
     # crashlytics
     supply(track: 'beta')
