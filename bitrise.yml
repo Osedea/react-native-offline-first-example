@@ -1,0 +1,74 @@
+---
+format_version: '4'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: fastlane
+app:
+  envs:
+  - FASTLANE_XCODE_LIST_TIMEOUT: '120'
+workflows:
+  ios:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4.0.5: {}
+    - script@1.1.5:
+        title: Do anything with Script step
+        inputs:
+        - content: |-
+            yarn
+            cd ios/ && fastlane spaceauth -u bitrise@osedea.com
+    - certificate-and-profile-installer@1.9.2: {}
+    - fastlane@2.3.12:
+        inputs:
+        - lane: "$FASTLANE_LANE"
+        - work_dir: "$FASTLANE_WORK_DIR"
+    - deploy-to-bitrise-io@1.3.10: {}
+    envs:
+    - opts:
+        is_expand: false
+      FASTLANE_WORK_DIR: ios
+    - opts:
+        is_expand: false
+      FASTLANE_LANE: ios beta
+  android:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4.0.5: {}
+    - script@1.1.5:
+        title: Do anything with Script step
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            # Retrieve keystore file
+            curl -o ./android/keystores/app.keystore $BITRISEIO_ANDROID_KEYSTORE_URL
+
+            # JSON file
+            curl -o ./android/app/google-services.json $BITRISEIO_GOOGLE_SERVICES_URL
+
+            yarn
+    - fastlane@2.3.12:
+        inputs:
+        - lane: "$FASTLANE_LANE"
+        - work_dir: "$FASTLANE_WORK_DIR"
+    - deploy-to-bitrise-io@1.3.10: {}
+    envs:
+    - opts:
+        is_expand: false
+      FASTLANE_WORK_DIR: android
+    - opts:
+        is_expand: false
+      FASTLANE_LANE: android beta
+    meta:
+      bitrise.io:
+        stack: linux-docker-android
+trigger_map:
+- tag: android-*
+  workflow: android
+- tag: ios-*
+  workflow: ios
