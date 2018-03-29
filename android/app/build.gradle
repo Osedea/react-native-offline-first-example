@@ -89,6 +89,17 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+/**
+ * Get the version code from command line param
+ *
+ * @return int If the param -PversionCode is present then return int value or -1
+ */
+def getVersionCode = { ->
+
+    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+    return code
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -97,7 +108,7 @@ android {
         applicationId "com.osedea.opensource.instameow"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+        versionCode getVersionCode()
         versionName "1.0"
         multiDexEnabled true
         ndk {
