@@ -27,8 +27,8 @@ platform :android do
 
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    version_codes = google_play_track_version_codes(track: 'beta')
-    puts version_codes
+    lastVersionCode = google_play_track_version_codes(track: 'beta').to_i
+    versionCode = lastVersionCode + 1
     gradle(task: "assembleRelease")
     sh "echo \"Copying apk to builds folder\" && cp ../app/build/outputs/apk/app-release.apk ../../builds/release-build-$(date +\"%Y_%m_%d-%H%M00\").apk"
     # crashlytics
