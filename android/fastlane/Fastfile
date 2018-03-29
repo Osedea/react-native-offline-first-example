@@ -32,7 +32,7 @@ platform :android do
     gradle(
       task: "assembleRelease",
       properties: {
-        "versionCode" => newVersionCode
+        "versionCode" => newVersionCode.to_s
       }
     )
     sh "echo \"Copying apk to builds folder\" && cp ../app/build/outputs/apk/app-release.apk ../../builds/release-build-$(date +\"%Y_%m_%d-%H%M00\").apk"
