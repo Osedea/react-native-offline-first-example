@@ -2,7 +2,7 @@ app_identifier "com.osedea.opensource.instameow" # The bundle identifier of your
 apple_id ENV["APPLE_ID"]
 
 team_id "H8H6658XPL" # Developer Portal Team ID
-itc_team_id "117925764"
+itc_team_id "118075568"
 
 # you can even provide different app identifiers, Apple IDs and team names per lane:
 # More information: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md
