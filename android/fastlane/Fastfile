@@ -27,10 +27,14 @@ platform :android do
 
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    lastVersionCode = google_play_track_version_codes(track: 'beta').first.to_i
-    versionCode = lastVersionCode + 1
-    puts versionCode
-    gradle(task: "assembleRelease")
+    oldVersionCode = google_play_track_version_codes(track: 'beta').first.to_i
+    newVersionCode = oldVersionCode + 1
+    gradle(
+      task: "assembleRelease",
+      properties: {
+        "versionCode" => newVersionCode
+      }
+    )
     sh "echo \"Copying apk to builds folder\" && cp ../app/build/outputs/apk/app-release.apk ../../builds/release-build-$(date +\"%Y_%m_%d-%H%M00\").apk"
     # crashlytics
     supply(track: 'beta')
