@@ -29,10 +29,12 @@ platform :android do
   lane :beta do
     oldVersionCode = google_play_track_version_codes(track: 'beta').first.to_i
     newVersionCode = oldVersionCode + 1
+    puts newVersionCode
+
     gradle(
       task: "assembleRelease",
       properties: {
-        "versionCode" => newVersionCode.to_s
+        "versionCode" => newVersionCode
       }
     )
     sh "echo \"Copying apk to builds folder\" && cp ../app/build/outputs/apk/app-release.apk ../../builds/release-build-$(date +\"%Y_%m_%d-%H%M00\").apk"
